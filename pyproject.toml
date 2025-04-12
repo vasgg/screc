@@ -1,0 +1,6 @@
+[project]
+name = "screc"
+version = "0.1.0"
+description = "screen recorder"
+requires-python = ">=3.13"
+dependencies = []
