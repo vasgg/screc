@@ -3,8 +3,8 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-RECORD_INTERVAL = 180
-MAX_FILES = 3
+RECORD_INTERVAL = 120
+MAX_FILES = 6
 OUTPUT_DIR = Path.home() / "screen_records"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
@@ -27,7 +27,8 @@ def cleanup_old_files():
 
 def record_screen():
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    output_file = OUTPUT_DIR / f"{timestamp}.mp4"
+    temp_file = OUTPUT_DIR / "ongoing_recording.mp4"
+    final_file = OUTPUT_DIR / f"{timestamp}.mp4"
     display = os.getenv("DISPLAY", ":0")
     resolution = get_screen_resolution()
 
@@ -41,10 +42,11 @@ def record_screen():
         "-preset", "ultrafast",
         "-t", str(RECORD_INTERVAL),
         "-y",
-        str(output_file)
+        str(temp_file)
     ]
 
     subprocess.run(ffmpeg_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    temp_file.rename(final_file)
 
 
 def main():
