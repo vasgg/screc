@@ -21,12 +21,14 @@ def record_screen():
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     output_file = OUTPUT_DIR / f"{timestamp}.mp4"
 
+    display = os.getenv("DISPLAY", ":0")
+
     ffmpeg_cmd = [
         "ffmpeg",
         "-video_size", "1280x720",
         "-framerate", "15",
         "-f", "x11grab",
-        "-i", ":0.0",
+        "-i", display,
         "-vf", "format=gray",
         "-preset", "ultrafast",
         "-t", str(RECORD_INTERVAL),
