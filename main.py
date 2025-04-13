@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import subprocess
 import os
 from datetime import datetime
@@ -11,7 +9,7 @@ OUTPUT_DIR = Path.home() / "screen_records"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 
-def get_screen_resolution() -> str:
+def get_screen_resolution() -> str | None:
     try:
         output = subprocess.check_output(["xdpyinfo"]).decode()
         for line in output.splitlines():
